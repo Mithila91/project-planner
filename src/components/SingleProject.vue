@@ -2,6 +2,11 @@
   <div class="project">
     <div class="actions">
       <h3 @click="handleShowDetails">{{ project.title }}</h3>
+      <div class="icons">
+        <span class="material-icons"> edit </span>
+        <span class="material-icons" @click="deleteProject"> delete </span>
+        <span class="material-icons"> done </span>
+      </div>
     </div>
     <div class="details" v-if="showDetails">
       <p>{{ project.details }}</p>
@@ -15,11 +20,19 @@ export default {
   data() {
     return {
       showDetails: false,
+      //getting the endpoints
+      uri: "http://localhost:3000/projects/" + this.project.id,
     };
   },
   methods: {
     handleShowDetails() {
       this.showDetails = !this.showDetails;
+    },
+    deleteProject() {
+      fetch(this.uri, { method: "DELETE" })
+        //or else it will only be deleted from the db
+        .then(() => this.$emit("delete", this.project.id))
+        .catch((err) => console.log(err.message));
     },
   },
 };
@@ -36,5 +49,22 @@ export default {
 }
 h3 {
   cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.material-icons {
+  font-size: 24px;
+  margin-left: 10px;
+  color: #bbb;
+  cursor: pointer;
+}
+
+.material-icons:hover {
+  color: #777;
 }
 </style>
