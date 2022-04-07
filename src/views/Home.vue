@@ -9,13 +9,10 @@
 </template>
 
 <script>
-import SingleProject from "../components/SingleProject";
-
+import SingleProject from "../components/SingleProject.vue";
 export default {
   name: "Home",
-  components: {
-    SingleProject,
-  },
+  components: { SingleProject },
   data() {
     return {
       projects: [],
@@ -25,7 +22,7 @@ export default {
     fetch("http://localhost:3000/projects")
       .then((res) => res.json())
       .then((data) => (this.projects = data))
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err));
   },
   methods: {
     handleDelete(id) {

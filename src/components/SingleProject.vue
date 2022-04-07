@@ -32,7 +32,7 @@ export default {
       fetch(this.uri, { method: "DELETE" })
         //or else it will only be deleted from the db
         .then(() => this.$emit("delete", this.project.id))
-        .catch((err) => console.log(err.message));
+        .catch((err) => console.log(err));
     },
   },
 };
