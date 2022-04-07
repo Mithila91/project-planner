@@ -1,5 +1,7 @@
 # project-planner
+Project created with Vue 3 for learning purposes.
 
+this will be a fully functioning crud app 
 ## Project setup
 ```
 npm install
