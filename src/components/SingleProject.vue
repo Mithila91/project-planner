@@ -1,11 +1,11 @@
 <template>
-  <div class="project">
+  <div class="project" :class="{ complete: project.complete }">
     <div class="actions">
       <h3 @click="handleShowDetails">{{ project.title }}</h3>
       <div class="icons">
         <span class="material-icons"> edit </span>
         <span class="material-icons" @click="deleteProject"> delete </span>
-        <span class="material-icons"> done </span>
+        <span class="material-icons tick" @click="toggleComplete"> done </span>
       </div>
     </div>
     <div class="details" v-if="showDetails">
@@ -33,6 +33,18 @@ export default {
         //or else it will only be deleted from the db
         .then(() => this.$emit("delete", this.project.id))
         .catch((err) => console.log(err));
+    },
+    toggleComplete() {
+      fetch(this.uri, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ complete: !this.project.complete }),
+      }).then(() => {
+        //must emit so the changes happens in home as well
+        this.$emit("complete", this.project.id).catch((err) =>
+          console.log(err)
+        );
+      });
     },
   },
 };
@@ -66,5 +78,14 @@ h3 {
 
 .material-icons:hover {
   color: #777;
+}
+
+/*completed projects, conditional class*/
+.project.complete {
+  border-left: 4px solid #00ce89;
+}
+/*adding the condtional class to tick*/
+.project.complete .tick {
+  color: #00ce89;
 }
 </style>
