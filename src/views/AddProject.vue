@@ -18,7 +18,20 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.title, this.details);
+      let project = {
+        title: this.title,
+        details: this.details,
+        complete: false,
+      };
+      fetch("http://localhost:3000/projects", {
+        method: "POST",
+        /*says that content-type is json*/
+        headers: { "Content-Type": "application/json" },
+        /*the data goes in to the body*/
+        body: JSON.stringify(project),
+      }).then(() => {
+        this.$router.push("/").catch((err) => console.log(err));
+      });
     },
   },
 };
